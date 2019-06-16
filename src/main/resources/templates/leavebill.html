@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>请假流程申请</title>
+</head>
+<script src="../static/js/jquery-3.4.1.min.js"></script>
+<body>
+<div th:include="header::logframe"></div>
+<br>
+<br>
+<div class="title" style="background-color: #2aabd2">请假表单</div>
+<form action="/bpm/flows/form" method="post">
+    <input type="hidden" id="id" name="id"/>
+    <input type="hidden" id="employId" name="employId"/>
+    <label>开始日期</label>
+    <input type="text" id="startTime" name="startTime"/>
+    <label>结束日期</label>
+    <input type="text"  id="endTime" name="endTime"/>
+    <br>
+    事由：<input type="text" id="reason" name="reason"/>
+    <br>
+    备注：<input type="text" id="remark" name="remark"/>
+    <br>
+    <button type="submit">保存</button>
+    <button>取消</button>
+</form>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org>
+<head>
+    <meta charset=" UTF-8>
+    <title>审批任务</title>
+</head>
+<script src="../static/js/jquery-3.4.1.min.js"></script>
+<body>
+<div th:include="header::logframe"></div>
+<br>
+<br>
+<h3>申请单详细</h3>
+<form action="/bpm/flows/handlefinish" method="post">
+    <input type="hidden" id="id" name="id" th:value="${bill.id}"/>
+    <input type="hidden" id="empId" name="empId" th:value="${bill.empId}"/>
+    <input type="hidden" id="instanceId" name="instanceId" th:value="${instanceId}"/>
+    <label class="col-sm-1 control-label" >开始日期</label>
+    <div class="col-sm-2 ">
+        <div class="input-group"  >
+            <input type="text" class="form-control form_datetime" id="startTime" name="startTime" th:value="${#dates.format(bill.startTime,'yyyy-MM-dd HH:mm:ss')}" th:if="${not #lists.isEmpty(bill.startTime)}" disabled/>
+            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+        </div>
+    </div>
+    <label class="col-sm-1 control-label" >结束日期</label>
+    <div class="col-sm-2 ">
+        <div class="input-group"  >
+            <input type="text" class="form-control form_datetime" id="endTime" name="endTime" th:value="${#dates.format(bill.endTime,'yyyy-MM-dd HH:mm:ss')}" th:if="${not #lists.isEmpty(bill.endTime)}" disabled/>
+            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+        </div>
+    </div>
+    <br>
+    事由：<input type="text" id="reason" name="reason" th:value="${bill.reason}" disabled/>
+    <br>
+    备注：<input type="text" id="remark" name="remark" th:value="${bill.remark}" disabled/>
+    <br>
+    批注：<textarea placeholder="请填写批注" name="comment"></textarea>
+    <br>
+    <button type="submit">处理</button>
+</form>
+<h4 style="background-color: #2a6496">审批历史</h4>
+<table>
+    <thead>
+    <tr>
+        <th>序号</th>
+        <th>流程节点</th>
+        <th>时间</th>
+        <!--<th>结束时间</th>-->
+        <th>办理人</th>
+        <th>批注</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!--<tr th:each="data : ${taskHistorys}">&lt;!&ndash;data  "comment":"{'k':'v','k1':'v1'}"&ndash;&gt;-->
+        <!--<td th:text="${dataStat.index+1}"></td>-->
+        <!--<td th:each="entry : ${data}" th:text="${entry.value.name}"></td>-->
+        <!--<td th:each="entry : ${data}" th:text="${#dates.format(entry.value.startTime,'yyyy-MM-dd HH:mm:ss')}" th:if="${not #lists.isEmpty(entry.value.startTime)}"></td>-->
+        <!--<td th:each="entry : ${data}" th:text="${#dates.format(entry.value.endTime,'yyyy-MM-dd HH:mm:ss')}" th:if="${not #lists.isEmpty(entry.value.endTime)}"></td>-->
+        <!--<td th:each="entry : ${data}" th:text="${entry.value.assignee}"></td>-->
+        <!--<td th:each="entry : ${data}" th:text="${entry.key}"></td>-->
+    <!--</tr>-->
+    <tr th:each="data : ${taskHistorys}">
+        <td th:text="${dataStat.index+1}"></td>
+        <td th:text="${data.taskName}"></td>
+        <td th:text="${#dates.format(data.createTime,'yyyy-MM-dd HH:mm:ss')}" th:if="${not #lists.isEmpty(data.createTime)}"></td>
+        <td th:text="${data.userName}"></td>
+        <td th:text="${data.remark}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

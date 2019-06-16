@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>已办</title>
+    <script src="../static/js/jquery-3.4.1.min.js"></script>
+</head>
+<body>
+<div th:include="header::logframe"></div>
+<br>
+<br>
+<table class="table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>任务名称</th>
+        <th>受理人</th>
+        <th>实例ID</th>
+        <th>开始时间</th>
+        <th>结束时间</th>
+        <!--<th>操作</th>-->
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="data : ${hisTasks}">
+        <td th:text="${data.id}"></td>
+        <td th:text="${data.name}"></td>
+        <td th:text="${data.assignee}"></td>
+        <td th:text="${data.processInstanceId}"></td>
+        <td th:text="${#dates.format(data.startTime,'yyyy-MM-dd HH:mm:ss')}" th:if="${not #lists.isEmpty(data.startTime)}"></td>
+        <td th:text="${#dates.format(data.endTime,'yyyy-MM-dd HH:mm:ss')}" th:if="${not #lists.isEmpty(data.endTime)}"></td>
+        <!--<td>-->
+            <!--<a href="javascript:void(0);" onclick="deleteProcess(this);" th:attrappend="objectId=${data.id}" class="font-blue delBtn">详情</a>-->
+        <!--</td>-->
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

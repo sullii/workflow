@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8"/>
+    <title>welcome</title>
+</head>
+<script src="../static/js/jquery-3.4.1.min.js"></script>
+<script th:inline="javascript">
+    function start(obj){
+        var id=obj.attributes['objectid'].nodeValue;
+        $.ajax({
+            url:"/bpm/flows/pageComplete/"+id,
+            type:"GET",
+            success:function(res){
+               // alert(res);
+            }
+        });
+    }
+
+    function deleteProcessDef(obj){
+        var id=obj.attributes['objectid'].nodeValue;
+        $.ajax({
+            url:"/bpm/flows/delete/"+id,
+            type:"DELETE",
+            success:function(res){
+                alert(res);
+                window.location.reload();
+            }
+        });
+
+    }
+</script>
+<body>
+<div th:include="header::logframe"></div>
+<br>
+<br>
+<h3>流程审批</h3>
+    <table cellpadding="" cellspacing="0" border="1 px solid">
+        <thead>
+        <th>流程定义名称</th>
+        <th>流程定义描述</th>
+        <th>操作</th>
+        </thead>
+        <tbody>
+        <tr th:each="processDefinition : ${resultList}" th:style="'background-color:#F2F2F2'">
+
+            <td th:text="${processDefinition.name}"></td>
+            <td th:text="${processDefinition.description}"></td>
+            <td >
+                <a href="javascript:void(0);" onclick="deleteProcessDef(this);" th:attrappend="objectId=${processDefinition.deploymentId}">删除</a>
+                <a th:href="@{'/flows/pageComplete/'+${processDefinition.key}}">开始申请</a>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>

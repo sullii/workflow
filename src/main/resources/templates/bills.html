@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>个人申请列表</title>
+</head>
+<script src="../static/js/jquery-3.4.1.min.js"></script>
+<script th:inline="javascript">
+    function start(obj) {
+        var param = {};
+        var id=obj.attributes['id'].nodeValue;
+        var key=obj.attributes['key'].nodeValue;
+        var businessKey=obj.attributes['businessKey'].nodeValue;
+        var remark=obj.attributes['remark'].nodeValue;
+        param.id = id;
+        param.key = key;
+        param.businessKey = businessKey;
+        param.remark = remark;
+        $.ajax({
+            url:'/bpm/flows/start',
+            type:'POST',
+            data:param,
+            success:function (res) {
+                alert(res);
+                window.location.reload();
+            },
+            error:function () {
+
+            }
+        })
+    }
+</script>
+<body>
+
+<div th:include="header::logframe"></div>
+<br>
+<br>
+<div class="title" style="background-color: #2aabd2">个人申请列表</div>
+<table class="table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>申请人</th>
+        <th>请假事由</th>
+        <th>备注</th>
+        <th>请假时间</th>
+        <th>请假状态</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="bill : ${bills}">
+        <td th:text="${bill.id}"></td>
+        <td th:text="${bill.empId}"></td>
+        <td th:text="${bill.reason}"></td>
+        <td th:text="${bill.remark}"></td>
+        <td th:text="${#dates.format(bill.creatTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+        <td>
+            <span th:if="${#strings.equalsIgnoreCase(bill.status,'0')}">初始录入</span>
+            <span th:if="${#strings.equalsIgnoreCase(bill.status,'1')}">提交申请</span>
+            <span th:if="${#strings.equalsIgnoreCase(bill.status,'2')}">审批中</span>
+            <span th:if="${#strings.equalsIgnoreCase(bill.status,'3')}">审批完成</span>
+        </td>
+        <td>
+            <!--<a href="javascript:void(0);" onclick="editBill(this);" th:attrappend="objectId=${bill.id}" class="font-blue deployBtn">编辑</a>-->
+            <!--<a href="javascript:void(0);" onclick="deleteBill(this);" th:attrappend="objectId=${bill.id}" class="font-blue delBtn">删除</a>-->
+            <a href="javascript:void(0);" onclick="start(this)" th:attrappend="id=${bill.id},key=${bill.key},businessKey=${bill.businessKey},remark=${bill.remark}">开始申请</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

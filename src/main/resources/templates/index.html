@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <script src="../static/js/jquery-3.4.1.min.js"></script>
+</head>
+<body>
+<div th:include="header::logframe"></div>
+<br>
+<br>
+<a href="/bpm/models/list">流程模型构建</a>
+<a href="/bpm/flows/flowTypeList">流程申请</a>
+<a href="/bpm/flows/bills">申请列表</a>
+<a href="/bpm/flows/pendingTask">我的待办</a>
+<a href="/bpm/flows/finishTask">我的已办</a>
+<a href="/bpm/flows/processInstance">流程实例管理</a>
+</body>
+</html>

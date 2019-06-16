@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<div th:fragment="logframe"><span>欢迎您 </span><span th:text="${session.user}" style="background-color: #2aabd2"></span>
+    <a th:href="@{'/user/logout'}">注销</a>
+</div>
+</body>
+</html>

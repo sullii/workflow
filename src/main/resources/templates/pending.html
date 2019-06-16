@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>我的待办</title>
+    <script src="../static/js/jquery-3.4.1.min.js"></script>
+</head>
+<body>
+<div>
+    <div th:include="header::logframe"></div>
+    <br>
+    <br>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>任务名称</th>
+            <th>受理人</th>
+            <th>任务ID</th>
+            <th>流程ID</th>
+            <th>创建时间</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="data : ${tasks}">
+            <td th:text="${data.id}"></td>
+            <td th:text="${data.name}"></td>
+            <td th:text="${data.assignee}">1</td>
+            <td th:text="${data.taskDefinitionKey}"></td>
+            <td th:text="${data.processDefinitionId}"></td>
+            <td th:text="${#dates.format(data.createTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td>
+                <a th:href="@{'/flows/viewCurrentImage?id='+${data.id}}"  lass="font-blue deployBtn">查看任务流程图</a>
+                <a th:href="@{'/flows/handle/'+${data.processInstanceId}}" lass="font-blue deployBtn">处理</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>费用报销单</title>
+</head>
+<body>
+<div th:include="header::logframe"></div>
+<br>
+<br>
+<div class="title" style="background-color: #2aabd2">费用报销单</div>
+<form action="" method="post">
+    <input type="hidden" id="id" name="id"/>
+    <input type="hidden" id="employId" name="employId"/>
+    <br>
+    报销来源：<input type="text" id="from" name="from"/>
+    <br>
+    报销金额：<input type="text" id="money" name="money"/>
+    <br>
+    备注：<input type="text" id="remark" name="remark"/>
+    <br>
+    凭证：<input type="file" id="reason" name="reason"/>
+    <br>
+    <button>提交</button>
+    <button>取消</button>
+</form>
+</body>
+</html>

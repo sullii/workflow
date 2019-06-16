@@ -1,0 +1,42 @@
+server:
+  port: 8088
+  context-path: /bpm
+spring:
+  application:
+    name: bpm
+  thymeleaf:
+    mode: LEGACYHTML5 #去掉模板引擎严格的标签校验
+    cache: false #去掉模板页面缓存 需要ctrl+9重新编译模板页面，不需要重启服务
+    encoding: UTF-8
+  datasource:
+    #SSL是Secure Socket Layer（安全套接层协议）的缩写，可以在Internet上提供秘密性传输。
+    url: jdbc:mysql://localhost:3306/isocloud_acti?useUnicode=true&createDatabaseIfNotExist=true&characterEncoding=utf8&useSSL=false
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: root
+
+  activiti:
+    database-schema-update: true
+    check-process-definitions: false #启动不检查是否有流程文件
+    process-definition-location-prefix: classpath:/processes/
+    history-level: full
+#  mvc:
+#    static-path-pattern: /static/**
+    #process-definition-location-suffixes:
+    #      - **.bpmn
+    #      - **.bpmn20.xml
+mybatis:
+  type-aliases-package: com.szaisiou.entity
+  mapper-locations: classpath*:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true #驼峰命名法
+
+mapper:
+  mappers: com.szaisiou.common.ibatis.BaseMapper
+  not-empty: false
+  identity: MYSQL
+
+security:
+  user:
+    name: root
+    password: root

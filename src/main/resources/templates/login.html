@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+</head>
+<script th:inline="javascript">
+
+//    function login() {
+//    var jsonData = $("form").serializeArray();
+//    $.ajax({
+//        url:"/bpm/user/login",
+//        type:"POST",
+//        data:jsonData,
+//        success:function(){
+//
+//        }
+//    })
+//    }
+</script>
+<style>
+    #form{
+        position: absolute;
+        left:1200px;
+        top:300px
+    }
+
+</style>
+<body>
+<form id="form"  method="post" action="/bpm/user/login">
+        <div class="login_padding" id="login_model">
+            <h3>bpm流程管理系统</h3>
+            <p th:text="${message}"></p>
+            <h2>用户名</h2>
+            <label>
+                <input type="text" id="username"  name="username" placeholder="Your name">
+            </label>
+            <h2>密码</h2>
+            <label>
+                <input type="password" name="password" id="password"  placeholder="password">
+            </label>
+            <br>
+            <input type="submit" value="登录">
+
+        </div>
+
+</form>
+</body>
+</html>

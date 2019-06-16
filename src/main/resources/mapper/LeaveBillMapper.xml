@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szaisiou.dao.LeaveBillMapper">
+
+    <resultMap id="BaseResultMap" type="com.szaisiou.entity.LeaveBill">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="empId" jdbcType="VARCHAR" property="empId" />
+        <result column="reason" jdbcType="VARCHAR" property="reason" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+        <result column="creatTime" jdbcType="TIMESTAMP" property="creatTime" />
+        <result column="finishTime" jdbcType="TIMESTAMP" property="finishTime" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+        <result column="startTime" jdbcType="TIMESTAMP" property="startTime" />
+        <result column="endTime" jdbcType="TIMESTAMP" property="endTime" />
+    </resultMap>
+
+    <sql id="base_select">
+        id,empId,reason,remark,creatTime,finishTime,status,startTime,endTime
+    </sql>
+
+    <insert id="addLeaveBillRecord" parameterType="com.szaisiou.entity.LeaveBill">
+        insert into leaveBill (id,empId,reason,remark,creatTime,finishTime,status,startTime,endTime)
+        values (#{id,jdbcType=VARCHAR}, #{empId,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR},
+        #{remark,jdbcType=VARCHAR},#{creatTime,jdbcType=TIMESTAMP},#{finishTime,jdbcType=TIMESTAMP},
+        #{status,jdbcType=INTEGER}, #{startTime,jdbcType=TIMESTAMP},#{endTime,jdbcType=TIMESTAMP})
+    </insert>
+
+    <delete id="deleteLeaveBillRecord" parameterType="java.lang.String">
+        delete from leaveBill where id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <update id="updateLeaveBillRecord" parameterType="com.szaisiou.entity.LeaveBill">
+        update leaveBill
+        <set>
+            <if test="empId != null and empId !=''">
+                empId = #{empId,jdbcType=VARCHAR},
+            </if>
+            <if test="reason != null and reason !=''">
+                reason = #{reason,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null and remark !=''">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="creatTime != null">
+                creatTime = #{creatTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="finishTime != null">
+                finishTime = #{finishTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null and status !=''">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="startTime != null">
+                startTime = #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null">
+                endTime = #{endTime,jdbcType=TIMESTAMP}
+            </if>
+        </set>
+        <where>
+            <if test="id != null and id !=''">
+                id = #{id,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </update>
+
+    <select id="selectLeaveBillRecord" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="base_select"/>
+        from leaveBill
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectLeaveBillRecordlist" resultMap="BaseResultMap">
+        select
+        <include refid="base_select"/>
+        from leaveBill
+    </select>
+
+    <select id="selectRelation" resultMap="BaseResultMap" parameterType="java.lang.String">
+      select
+        lb.id,e.`name` as empId,reason,remark,creatTime,finishTime,status
+        from leaveBill as lb left join employ e on lb.empId = e.id
+        <where>
+          <if test="userId != null and userId != ''">
+              e.id = #{userId,jdbcType=VARCHAR}
+          </if>
+        </where>
+    </select>
+
+</mapper>
