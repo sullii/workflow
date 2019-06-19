@@ -6,6 +6,8 @@ import org.activiti.bpmn.converter.BpmnXMLConverter;
 import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.editor.language.json.converter.BpmnJsonConverter;
 import org.activiti.engine.*;
+import org.activiti.engine.form.FormProperty;
+import org.activiti.engine.form.StartFormData;
 import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.impl.pvm.PvmTransition;
 import org.activiti.engine.impl.pvm.process.ActivityImpl;
@@ -20,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -102,10 +105,12 @@ public class WorkflowApplicationTest {
      */
     @Test
     public void start(){
-        String key = "test001";
+        String key = "test";
         //流程变量
+        String userId = "张三";
+        identityService.setAuthenticatedUserId(userId);
         HashMap<String, Object> variables = new HashMap<>();
-        variables.put("user","zhangsan");
+        variables.put("starter",userId);
         ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(key, variables);
         System.out.println("流程部署的ID："+processInstance.getDeploymentId());
         System.out.println("流程定义的ID："+processInstance.getProcessDefinitionId());
@@ -118,7 +123,7 @@ public class WorkflowApplicationTest {
      */
     @Test
     public void complete(){
-        String taskid = "17505";
+        String taskid = "25006";
         taskService.complete(taskid);
         System.out.println("启动成功...");
     }
@@ -148,6 +153,25 @@ public class WorkflowApplicationTest {
             }
         }
         System.out.println("流程连线:"+strings);
+
+    }
+
+    /**
+     *
+     * 通过流程定义获取动态表单
+     */
+    @Test
+    public void getDynamicForm(){
+        String processDefinitionId = "test:1:22507";
+        StartFormData startFormData = formService.getStartFormData(processDefinitionId);
+        List<FormProperty> formProperties = startFormData.getFormProperties();
+        if(!formProperties.isEmpty()){
+            for(FormProperty f : formProperties){
+                System.out.println("动态表单属性:"+f.getId()+"---"+f.getName()+"-----"+f.getValue()+"----"+f.getType());
+            }
+        }
+        System.out.println("流程定义:"+startFormData.getProcessDefinition());
+
 
     }
 
